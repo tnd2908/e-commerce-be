@@ -1,7 +1,6 @@
-import { Request, Response, Router } from 'express';
+import { Request, Response } from 'express';
 import User from '../Model/user';
 import bcrypt from 'bcrypt';
-import { Message } from '../Adapter/class/Message';
 import jwt from 'jsonwebtoken';
 import Product from '../Model/product';
 import Bill from '../Model/bill';
@@ -18,8 +17,9 @@ export class UserController {
                 })
             }
             else {
-                const result = new Message().sendErrorMessage('Email is already existed')
-                return res.json(result)
+                return res.json({
+                    msg: 'Email is already existed'
+                })
             }
         } catch (error) {
             console.log(error)
