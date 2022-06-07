@@ -1,9 +1,6 @@
 import { model, Schema } from "mongoose";
 const userSchema = new Schema({
-    firstName: {
-        type: String
-    },
-    lastName:{
+    fullName: {
         type: String
     },
     role:{
@@ -19,10 +16,6 @@ const userSchema = new Schema({
         required: true,
         type: String
     },
-    gender: {
-        required: false,
-        type: String
-    },
     phone: {
         required: false,
         type: Number
@@ -36,21 +29,6 @@ const userSchema = new Schema({
         ref: 'Product',
         required: false
     },
-    cart:{
-        type: [{
-            productId: {
-                type: Schema.Types.ObjectId,
-                required: true,
-                ref: 'Product'
-            },
-            quantity: {
-                type: Number,
-                required: false,
-                default: 1
-            },
-        }],
-        required: false,
-    }
 })
 const User = model('User', userSchema)
 

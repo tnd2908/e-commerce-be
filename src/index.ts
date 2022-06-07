@@ -12,10 +12,12 @@ import newsRoute from "../Route/news";
 import http from 'http'
 import fileUpload from 'express-fileupload';
 import cors from 'cors'
-import { colorRoute } from '../Route/color';
 const app: Application = express();
 const server = http.createServer(app)
-app.use(cors())
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:4200'
+}))
 app.use(express.json())
 app.use(express.static('Public'))
 app.use(fileUpload())
@@ -24,7 +26,7 @@ const PORT = 5050;
 //Create connection
 const connectDB = async () =>{
     try {
-        await mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@watch-shop.mtywc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`)
+        await mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@angular-ecommerce.phpbgbk.mongodb.net/?retryWrites=true&w=majority`)
         console.log('DB connected')
     } catch (error) {
         console.log(`Errors: ${error}`)
@@ -40,7 +42,6 @@ app.use('/upload', uploadRouter)
 app.use('/product', productRouter)
 app.use('/category', categoryRouter)
 app.use('/bill', billRouter)
-app.use('/color', colorRoute)
 app.use('/voucher', vouncherRouter)
 app.use('/revenue', revenueRouter)
 app.use("/news", newsRoute);
