@@ -13,7 +13,7 @@ export class UserController {
                 await User.create(req.body);
                 return res.status(200).json({
                     success: true,
-                    message: 'User register successful',
+                    msg: 'User register successful',
                 })
             }
             else {
@@ -52,20 +52,20 @@ export class UserController {
                         if (role === 'admin') {
                             return res.status(200).json({
                                 success: true,
-                                message: 'Login successful',
+                                msg: 'Login successful',
                                 adminToken: accessToken
                             })
                         }
                         else return res.status(200).json({
                             success: true,
-                            message: 'Login successful',
+                            msg: 'Login successful',
                             accessToken
                         })
                     }
                     else
                         return res.json({
                             success: false,
-                            message: 'Wrong email or password!'
+                            msg: 'Wrong email or password!'
                         })
                 })
             }
@@ -80,7 +80,7 @@ export class UserController {
         if (!token) {
             return res.json({
                 success: false,
-                message: 'Need token'
+                msg: 'Need token'
             })
         }
         try {
@@ -95,7 +95,7 @@ export class UserController {
         } catch (error) {
             return res.json({
                 success: false,
-                message: 'Invalid token'
+                msg: 'Invalid token'
             })
         }
     }

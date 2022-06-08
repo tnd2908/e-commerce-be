@@ -21,16 +21,8 @@ const productSchema: Schema = new Schema({
         required: true,
         type: String
     },
-    frontCamera:{
-        require: true,
-        type: String
-    },
-    camera: {
-        required: true,
-        type: String
-    },
     category:{
-        required: true,
+        required: false,
         type: Schema.Types.ObjectId,
         ref: "category"
     },
@@ -40,7 +32,7 @@ const productSchema: Schema = new Schema({
     },
     color: {
         required: true,
-        type: String
+        type: [String]
     },
     totalQuantity: {
         required: true,
@@ -52,7 +44,7 @@ const productSchema: Schema = new Schema({
     },
     status:{
         type: String,
-        required: true
+        required: false
     },
     createAt: {
         type: Date,

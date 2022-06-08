@@ -18,7 +18,7 @@ const userSchema = new Schema({
     },
     phone: {
         required: false,
-        type: Number
+        type: String
     },
     createAt: {
         type: Date,
