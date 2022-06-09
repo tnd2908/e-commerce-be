@@ -1,19 +1,19 @@
-import {Request, Response} from 'express'
-import Category from '../Model/category'
-export class categoryController{
-    public static addCategory = async (req: Request, res: Response) =>{
+import { Request, Response } from 'express'
+import Brand from '../Model/brand'
+export class BrandController{
+    public static addBrand = async (req: Request, res: Response) =>{
         try {
-            const {name, icon} = req.body
-            const cate = await Category.findOne({name})
+            const {name, logo} = req.body
+            const cate = await Brand.findOne({name})
             if (cate) {
                 return res.json({
                     success: false,
                     msg: 'Loại sản phẩm này đã tồn tại '
                 })
             }
-            await Category.create({
+            await Brand.create({
                 name,
-                icon,
+                logo,
             })
             return res.json({
                 success: true,
@@ -26,18 +26,13 @@ export class categoryController{
             })
         }
     }
-    public static getCategory = async (req: Request, res: Response) =>{
+    public static getBrand = async (req: Request, res: Response) =>{
         try {
-            const categories = await Category.find({})
-            if (categories.length)
+            const brands = await Brand.find({})
             return res.status(200).json({
                 success: true,
                 msg: 'Get category successfully',
-                categories
-            })
-            else return res.json({
-                success: false,
-                message: 'Get category failed'
+                brands
             })
         } catch (error) {
             res.json({
@@ -46,14 +41,14 @@ export class categoryController{
             })
         }
     }
-    public static getCategoryDetail = async (req: Request, res: Response) => {
+    public static getBrandDetail = async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            const category = await Category.findById(id);
-            if (category) {
+            const brand = await Brand.findById(id);
+            if (brand) {
                 return res.json({
                     success: true,
-                    category
+                    brand
                 })
             } return res.json({
                 success: false,
@@ -63,11 +58,11 @@ export class categoryController{
             console.log(error);
         }
     }
-    public static updateCategory = async (req: Request, res: Response) =>{
+    public static updateBrand = async (req: Request, res: Response) =>{
         try {
             const {name, gender} = req.body
             const {id} = req.params
-            await Category.findByIdAndUpdate(id, {name, gender})
+            await Brand.findByIdAndUpdate(id, {name, gender})
             return res.json({
                 success: true,
                 message: 'Updated category successfully'

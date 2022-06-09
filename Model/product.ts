@@ -14,11 +14,11 @@ const productSchema: Schema = new Schema({
         required: true
     },
     ram: {
-        required: true,
+        required: false,
         type: String
     },
     rom: {
-        required: true,
+        required: false,
         type: String
     },
     category:{

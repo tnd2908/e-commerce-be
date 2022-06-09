@@ -10,7 +10,8 @@ export class UserController {
         try {
             const user = await User.findOne({ email })
             if (!user) {
-                await User.create(req.body);
+                const password = await bcrypt.hash(req.body.password, 10)
+                await User.create({ ...req.body, password });
                 return res.status(200).json({
                     success: true,
                     msg: 'User register successful',
@@ -31,7 +32,7 @@ export class UserController {
             const user: any = await User.findOne({ email })
             const jwtSecret: string = process.env.JWT_SECRET || " "
             if (!user) {
-                return res.json({
+                return res.status(400).json({
                     success: false,
                     message: 'Wrong email or Password!'
                 })
@@ -39,27 +40,25 @@ export class UserController {
             else if (user) {
                 await bcrypt.compare(password, user.password, (err, same) => {
                     if (same) {
-                        const { firstName, lastName, email, role, phone, gender } = user
+                        const { fullName, email, role, phone, _id } = user
                         const accessToken = jwt.sign({
                             userId: user._id,
-                            firstName,
-                            lastName,
+                            fullName,
                             email,
                             role,
                             phone,
-                            gender,
                         }, jwtSecret)
-                        if (role === 'admin') {
-                            return res.status(200).json({
-                                success: true,
-                                msg: 'Login successful',
-                                adminToken: accessToken
-                            })
-                        }
-                        else return res.status(200).json({
+                        return res.status(200).json({
                             success: true,
                             msg: 'Login successful',
-                            accessToken
+                            accessToken,
+                            user: {
+                                id: _id,
+                                fullName,
+                                email,
+                                role,
+                                phone
+                            }
                         })
                     }
                     else
