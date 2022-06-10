@@ -134,19 +134,24 @@ export class productController {
     }
     public static addNewProduct = async (req: Request, res: Response) => {
         try {
-            const {name, price, images, description, category, quantity, color, status, material, weight, size} = req.body;
-            await Product.create({
-                name,
-                price,
-                images,
-                description,
-                category,
-                quantity,
-                color,
-                status,
-                material,
-                weight,
-                size
+            const {name, price, images, description, category, totalQuantity, colors, ram, rom} = req.body;
+            // await Product.create({
+            //     name,
+            //     price,
+            //     images,
+            //     description,
+            //     category,
+            //     totalQuantity,
+            //     color,
+            //     status,
+            //     material,
+            //     weight,
+            //     size
+            // })
+            console.log(req.body);
+            
+            colors.map((item : any) => {
+                console.log(item)
             })
             return res.status(200).json({
                 success: true,
