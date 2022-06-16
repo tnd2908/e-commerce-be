@@ -134,24 +134,21 @@ export class productController {
     }
     public static addNewProduct = async (req: Request, res: Response) => {
         try {
-            const {name, price, images, description, category, totalQuantity, colors, ram, rom} = req.body;
-            // await Product.create({
-            //     name,
-            //     price,
-            //     images,
-            //     description,
-            //     category,
-            //     totalQuantity,
-            //     color,
-            //     status,
-            //     material,
-            //     weight,
-            //     size
-            // })
-            console.log(req.body);
-            
-            colors.map((item : any) => {
-                console.log(item)
+            const {name, price, images, description, category, totalQuantity, colors, ram, rom, brand} = req.body;
+            rom.map(async (item : any, index: number) => {
+                const data = {
+                    name: name + ' ' + item + 'GB',
+                    images,
+                    description,
+                    category,
+                    brand,
+                    colors,
+                    totalQuantity: totalQuantity[index],
+                    price: price[index],
+                    ram: ram[index],
+                    rom: item
+                }
+                await Product.create(data)
             })
             return res.status(200).json({
                 success: true,

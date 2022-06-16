@@ -15,11 +15,11 @@ const productSchema: Schema = new Schema({
     },
     ram: {
         required: false,
-        type: String
+        type: Number
     },
     rom: {
         required: false,
-        type: String
+        type: Number
     },
     category:{
         required: false,
@@ -30,9 +30,18 @@ const productSchema: Schema = new Schema({
         type: Number,
         default: 0
     },
-    color: {
+    colors: {
         required: true,
-        type: [String]
+        type: [{
+            name: {
+                type: String,
+                required: true,
+            },
+            value: {
+                type: String,
+                required: true,
+            }
+        }]
     },
     totalQuantity: {
         required: true,
