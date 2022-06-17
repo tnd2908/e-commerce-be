@@ -26,6 +26,11 @@ const productSchema: Schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "category"
     },
+    brand: {
+        required: true,
+        type: Schema.Types.ObjectId,
+        ref: 'brand'
+    },
     saled:{
         type: Number,
         default: 0
@@ -54,6 +59,10 @@ const productSchema: Schema = new Schema({
     status:{
         type: String,
         required: false
+    },
+    description: {
+        type: String,
+        required: false,
     },
     createAt: {
         type: Date,

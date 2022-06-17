@@ -6,7 +6,7 @@ import {Singleton} from '../Util/function'
 export class productController {
     public static getProduct = async (req: Request, res: Response) => {
         try {
-            const product = await Product.find({}).populate("category").select('-comment')
+            const product = await Product.find({}).populate("category")
             return res.status(200).json({
                 success: true,
                 message: 'Get product successfully',
@@ -23,51 +23,13 @@ export class productController {
     }
     public static getProductDetail = async (req: Request, res: Response) => {
         try {
-            const {name} = req.params
-            const relatedName = name.split('-')[0]
-            const detail: any = await Product.findOne({name}).populate("category")
-            const relatedProduct = await Product.find({name: {$regex: relatedName}}).select('-comment')
-            let totalStar = 0
-            let count = {
-                oneStar: 0,
-                twoStar: 0,
-                threeStar: 0,
-                fourStar: 0,
-                fiveStar: 0 
-            }
-            if(detail.comment.length === 1){
-                let star = detail.comment[0].star
-                totalStar = star/detail.comment.length
-            }
-            else if(detail.comment.length > 1){
-                let star = 0
-                detail.comment.map((item: any)=> star += item.star)
-                totalStar = star/detail.comment.length
-            }
-            detail.comment.map((item:any)=>{
-                if(item.star == 1){
-                    count = {...count, oneStar: count.oneStar + 1}
-                }
-                else if (item.star == 2){
-                    count = {...count, twoStar: count.twoStar + 1}
-                }
-                else if (item.star == 3){
-                    count = {...count, threeStar: count.threeStar + 1}
-                }
-                else if (item.star == 4){
-                    count = {...count, fourStar: count.fourStar + 1}
-                }
-                else if (item.star == 5){
-                    count = {...count, fiveStar: count.fiveStar + 1}
-                }
-            })
+            const {id} = req.params
+            const detail: any = await Product.findById(id).populate("category").populate('brand')
+            // const relatedProduct = await Product.find({name: {$regex: relatedName}}).select('-comment')
             return res.status(200).json({
                 success: true,
                 message: 'Get detail successfully',
                 data: detail,
-                relatedProduct,
-                star: totalStar.toFixed(1),
-                countStar: count
             })
         } catch (error) {
             console.log(error)
