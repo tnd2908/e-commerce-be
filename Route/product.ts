@@ -13,4 +13,4 @@ productRouter.post('/comment/:id', productController.addNewComment)
 productRouter.put('/:id', productController.editProduct)
 productRouter.get('/name/:name', productController.getRelatedProduct)
 productRouter.get('/sale/best-saling', productController.getProductBestSaling)
-
+productRouter.delete('/:id', productController.deleteProduct)

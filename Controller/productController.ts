@@ -6,7 +6,7 @@ import {Singleton} from '../Util/function'
 export class productController {
     public static getProduct = async (req: Request, res: Response) => {
         try {
-            const product = await Product.find({}).populate("category").limit(12)
+            const product = await Product.find({}).populate("category").populate('brand').limit(12)
             return res.status(200).json({
                 success: true,
                 message: 'Get product successfully',
