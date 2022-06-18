@@ -6,7 +6,7 @@ import {Singleton} from '../Util/function'
 export class productController {
     public static getProduct = async (req: Request, res: Response) => {
         try {
-            const product = await Product.find({}).populate("category")
+            const product = await Product.find({}).populate("category").populate('brand').limit(12)
             return res.status(200).json({
                 success: true,
                 message: 'Get product successfully',
@@ -201,6 +201,21 @@ export class productController {
             })
         } catch (error) {
             console.log(error)
+            return res.json({
+                success: false,
+                message: 'Fail'
+            })
+        }
+    }
+    public static deleteProduct = async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            await Product.findByIdAndDelete(id)
+            return res.json({
+                success: true,
+                msg: 'Deleted product successfully'
+            })
+        } catch (error) {
             return res.json({
                 success: false,
                 message: 'Fail'
