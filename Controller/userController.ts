@@ -255,12 +255,12 @@ export class UserController {
     }
     public static changeInfor = async (req: Request, res: Response) =>{
         const {id} = req.params
-        const {firstName, lastName, phone, password} = req.body
+        const {fullName, phone, password} = req.body
         try {
             const user :any = await User.findById(id)
             await bcrypt.compare(password, user.password, async (err, same) =>{
                 if(same){
-                    await User.findByIdAndUpdate(id, {firstName, lastName, phone})
+                    await User.findByIdAndUpdate(id, {fullName, phone})
                     return res.status(200).json({
                         success: true,
                         message: 'Updated your information'
@@ -277,6 +277,30 @@ export class UserController {
             return res.json({
                 success: false,
                 message: 'Fail to update information'
+            })
+        }
+    }
+
+    public static refreshToken = async (req: Request, res: Response) => {
+        const {userId} = req.params
+        const jwtSecret: string = process.env.JWT_SECRET || " "
+        const user :any = await User.findById(userId)
+        try {
+            const refreshToken = jwt.sign({
+                userId: user._id,
+                fullName: user.fullName,
+                email: user.email,
+                phone: user.phone,
+                role: user.role,
+            }, jwtSecret)
+            return res.status(200).json({
+                success: true,
+                refreshToken
+            })
+        } catch (error) {
+            res.json({
+                success: false,
+                message: error
             })
         }
     }
