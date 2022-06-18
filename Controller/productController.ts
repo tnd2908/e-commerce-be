@@ -145,21 +145,20 @@ export class productController {
         }
     }
     public static editProduct = async (req: Request, res: Response) =>{
-        const {name, price, quantity, status, category, saleOf, color, description, weight, size, material} = req.body
+        const {name, price, totalQuantity, ram, rom, category, brand, colors, description, images } = req.body
         const {id} = req.params
         try {
             await Product.findByIdAndUpdate(id, {
                 name,
                 price,
-                status,
-                quantity,
+                totalQuantity,
                 category,
-                saleOf,
-                color,
+                brand,
+                colors,
                 description,
-                weight,
-                size,
-                material
+                ram,
+                rom,
+                images
             })
             return res.status(200).json({
                 success: true,

@@ -10,7 +10,7 @@ productRouter.get('/:id', productController.getProductDetail)
 productRouter.get('/status/:status', productController.getProductByStatus)
 productRouter.post('/add-new', productController.addNewProduct)
 productRouter.post('/comment/:id', productController.addNewComment)
-productRouter.put('/:id', checkToken, productController.editProduct)
+productRouter.put('/:id', productController.editProduct)
 productRouter.get('/name/:name', productController.getRelatedProduct)
 productRouter.get('/sale/best-saling', productController.getProductBestSaling)
 
