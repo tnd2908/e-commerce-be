@@ -9,6 +9,11 @@ const categorySchema = new Schema({
         type: String,
         required: true
     },
+    type: {
+        type: String,
+        required: true,
+        default: 'main'
+    }
 })
 const Category = model("category", categorySchema)
 export default Category

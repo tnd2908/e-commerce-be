@@ -5,7 +5,7 @@ const productInBill = new Schema({
         ref: "products",
         require: true
     },
-    quantityInCart: {
+    quantity: {
         type: Number,
         required: true
     },

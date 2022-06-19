@@ -6,7 +6,7 @@ import {Singleton} from '../Util/function'
 export class productController {
     public static getProduct = async (req: Request, res: Response) => {
         try {
-            const product = await Product.find({}).populate("category")
+            const product = await Product.find({}).populate("category").populate('brand').limit(12)
             return res.status(200).json({
                 success: true,
                 message: 'Get product successfully',
@@ -21,11 +21,42 @@ export class productController {
             })
         }
     }
+    public static getProductDetailByName = async (req: Request, res: Response) => {
+        try {
+            const {name} = req.params;
+            console.log(name);
+            const arr = name.split(" ")
+            const relatedName = arr.slice(0, arr.length - 1).join(" ")
+            const detail = await Product.findOne({name}).populate('brand').populate('category')
+            const relatedProduct = await Product.find({name: {$regex: relatedName}})
+            const model = relatedProduct.map((item : any) => {
+                return {
+                    rom: item.rom,
+                    link: relatedName+' '+item.rom
+                }
+            })
+            console.log(model);
+            
+            return res.json({
+                success: true,
+                data: {
+                    detail,
+                    relatedProduct,
+                    model
+                }
+            })
+        } catch (error) {
+            console.log(error);
+            return res.json({
+                success: false,
+                msg: error
+            })
+        }
+    }
     public static getProductDetail = async (req: Request, res: Response) => {
         try {
             const {id} = req.params
             const detail: any = await Product.findById(id).populate("category").populate('brand')
-            // const relatedProduct = await Product.find({name: {$regex: relatedName}}).select('-comment')
             return res.status(200).json({
                 success: true,
                 message: 'Get detail successfully',
@@ -201,6 +232,21 @@ export class productController {
             })
         } catch (error) {
             console.log(error)
+            return res.json({
+                success: false,
+                message: 'Fail'
+            })
+        }
+    }
+    public static deleteProduct = async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            await Product.findByIdAndDelete(id)
+            return res.json({
+                success: true,
+                msg: 'Deleted product successfully'
+            })
+        } catch (error) {
             return res.json({
                 success: false,
                 message: 'Fail'
