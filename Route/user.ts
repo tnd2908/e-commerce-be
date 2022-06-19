@@ -14,3 +14,4 @@ userRouter.get('/history/:id', checkUserToken, UserController.getHistory)
 userRouter.put('/update/password/:id', checkUserToken, UserController.changePassword)
 userRouter.put('/update/information/:id', UserController.changeInfor)
 userRouter.get('/refresh/:userId', UserController.refreshToken)
+userRouter.get('/all', UserController.getAllUser);
