@@ -33,9 +33,7 @@ export class productController {
                     rom: item.rom,
                     link: relatedName+' '+item.rom
                 }
-            })
-            console.log(model);
-            
+            })            
             return res.json({
                 success: true,
                 data: {
@@ -224,7 +222,7 @@ export class productController {
     }
     public static getProductBestSaling = async (req: Request, res: Response) =>{
         try {
-            const data = await Product.find({}).sort({saled: -1}).limit(5).select('-comment')
+            const data = await Product.find({}).sort({saled: -1}).limit(5)            
             return res.json({
                 success: true,
                 data

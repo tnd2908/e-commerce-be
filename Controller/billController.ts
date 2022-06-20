@@ -40,10 +40,18 @@ export class BillController {
                             message: 'Add new bill successfully'
                         })
                     }
-                    else return res.json({
-                        success: true,
-                        message: 'Add new bill successfully'
-                    })
+                    else{
+                        if (status === 'Completed') {
+                            details.forEach( async (element : any) => {
+                                const data :any = await Product.findOne({name: element.productName})
+                                await Product.findOneAndUpdate({name: element.productName}, {totalQuantity: data.totalQuantity - element.quantity, saled: data.saled + element.quantity})
+                            });
+                        }
+                        return res.json({
+                            success: true,
+                            message: 'Add new bill successfully'
+                        })
+                    } 
                 }
             })
         } catch (error) {
@@ -56,6 +64,7 @@ export class BillController {
     public static getBill = async (req: Request, res: Response) =>{
         try {
             const data = await Bill.find({})
+            
             return res.json({
                 data: data.reverse(),
                 success: true,
