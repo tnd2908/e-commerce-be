@@ -5,6 +5,7 @@ import {checkToken} from '../Middleware/authentication'
 export const productRouter: Router = express.Router()
 
 productRouter.get('/', productController.getProduct)
+productRouter.get('/all', productController.getAllProduct)
 productRouter.get('/query', productController.queryProduct)
 productRouter.get('/:id', productController.getProductDetail)
 productRouter.get('/detail/:name', productController.getProductDetailByName)

@@ -250,4 +250,12 @@ export class productController {
             })
         }
     }
+
+    public static getAllProduct = async (req: Request, res: Response) => {
+        const data = await Product.find({})
+        return res.json({
+            lenght: data.length,
+            data: data
+        })
+    }
 }
