@@ -24,7 +24,6 @@ export class productController {
     public static getProductDetailByName = async (req: Request, res: Response) => {
         try {
             const {name} = req.params;
-            console.log(name);
             const arr = name.split(" ")
             const relatedName = arr.slice(0, arr.length - 1).join(" ")
             const detail = await Product.findOne({name}).populate('brand').populate('category')
