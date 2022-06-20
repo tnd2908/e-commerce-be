@@ -306,7 +306,7 @@ export class UserController {
     }
 
     public static getAllUser = async (req: Request, res: Response) => {
-        const users: any = await User.find({})
+        const users: any = await User.find({role: "USER"})
         res.json({
             users: users
         })
