@@ -204,6 +204,8 @@ export class UserController {
     }
     public static getHistory = async (req: Request, res: Response) => {
         const {id} = req.params;
+        console.log(id);
+        
         try {
             const data = await Bill.find({userId: id})
             if(data.length){

@@ -6,11 +6,25 @@ import {Singleton} from '../Util/function'
 export class productController {
     public static getProduct = async (req: Request, res: Response) => {
         try {
-            const product = await Product.find({}).populate("category").populate('brand').limit(12)
+            const { category, brand } = req.query
+            console.log(category);
+            let obj = { 
+                category : category ? category : null,
+                brand: brand ? brand : null
+            }
+            Object.keys(obj).forEach((key : any) => {
+                // @ts-ignore
+                if (obj[key] === null) {
+                    // @ts-ignore
+                    delete obj[key]
+                }
+            })
+            const product = await Product.find(obj).populate("category").populate('brand')
+
             return res.status(200).json({
                 success: true,
                 message: 'Get product successfully',
-                data: product,
+                data: product.reverse(),
             })
         } catch (error) {
             console.log(error)

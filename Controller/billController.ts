@@ -27,31 +27,16 @@ export class BillController {
                     }) 
                 }
                 else if(ok){
-                    if(userId){
-                        await User.findByIdAndUpdate(userId, {cart: []})
-                        if(status === 'Completed'){
-                            details.forEach( async (element : any) => {
-                                const data :any = await Product.findOne({name: element.productName})
-                                await Product.findOneAndUpdate({name: element.productName}, {quantity: data.quantity - element.quantityInCart, saled: data.saled + element.quantityInCart})
-                            });
-                        }
-                        return res.json({
-                            success: true,
-                            message: 'Add new bill successfully'
-                        })
+                    if (status === 'Completed') {
+                        details.forEach( async (element : any) => {
+                            const data :any = await Product.findOne({name: element.productName})
+                            await Product.findOneAndUpdate({name: element.productName}, {totalQuantity: data.totalQuantity - element.quantity, saled: data.saled + element.quantity})
+                        });
                     }
-                    else{
-                        if (status === 'Completed') {
-                            details.forEach( async (element : any) => {
-                                const data :any = await Product.findOne({name: element.productName})
-                                await Product.findOneAndUpdate({name: element.productName}, {totalQuantity: data.totalQuantity - element.quantity, saled: data.saled + element.quantity})
-                            });
-                        }
-                        return res.json({
-                            success: true,
-                            message: 'Add new bill successfully'
-                        })
-                    } 
+                    return res.json({
+                        success: true,
+                        message: 'Add new bill successfully'
+                    })
                 }
             })
         } catch (error) {
